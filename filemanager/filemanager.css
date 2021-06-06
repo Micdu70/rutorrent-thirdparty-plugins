@@ -93,7 +93,6 @@ div#fMan_CreateSFV div.dlg-header {
 	background-image: url(images/sfv.gif)
 }
 
-
 #fMan_Nfo #nfo_content, #fMan_ConsoleLog {
 	overflow: scroll;
 	height: 400px;

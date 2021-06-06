@@ -136,3 +136,6 @@ theUILang.fStops = {
 	Screenshots: 	'Video screenshots creation stopped'
 }
 
+
+theUILang.fDiagCopyLog		= "Copy text";
+theUILang.fDiagClearButton	= "Clear";

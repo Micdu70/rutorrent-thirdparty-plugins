@@ -175,9 +175,7 @@ theWebUI.fManager = {
 
 
 	actStart: function (diag) {
-
-
-			this.makeVisbile('fMan_Console');
+			this.makeVisible('fMan_Console');
 			var loader = './images/ajax-loader.gif';
 			if(thePlugins.isInstalled('create')) {
 				loader = './plugins/create/images/ajax-loader.gif';
@@ -221,7 +219,7 @@ theWebUI.fManager = {
 			type.change();
 		}
 
-		this.makeVisbile('fMan_CArchive');
+		this.makeVisible('fMan_CArchive');
 	},
 
 
@@ -299,8 +297,6 @@ theWebUI.fManager = {
 		console[0].scrollTop = console[0].scrollHeight;
 	},
 
-
-
 	changedir: function (target) {
 
 		var dir;
@@ -324,7 +320,7 @@ theWebUI.fManager = {
 	createDir: function (dirname) {
 
 			$('#fMan-NewDirPath').text(theWebUI.fManager.curpath);
-			this.makeVisbile('fMan_mkdir');
+			this.makeVisible('fMan_mkdir');
 	},
 
 
@@ -337,7 +333,7 @@ theWebUI.fManager = {
 				$('#fMan_Screenshots .fMan_Start').attr('disabled',false);
 		}
 
-		this.makeVisbile('fMan_Screenshots');
+		this.makeVisible('fMan_Screenshots');
 	},
 
 
@@ -391,7 +387,7 @@ theWebUI.fManager = {
 			$('#'+diag+' .fMan_Start').attr('disabled',false);
 		}
 
-		this.makeVisbile(diag);
+		this.makeVisible(diag);
 	},
 
 	doArchive: function(button, diag) {
@@ -591,7 +587,7 @@ theWebUI.fManager = {
 				$('#fMan_Extract .fMan_Start').attr('disabled',false);
 		}
 
-		this.makeVisbile('fMan_Extract');
+		this.makeVisible('fMan_Extract');
 	},
 
 
@@ -892,7 +888,7 @@ theWebUI.fManager = {
 		$('#fMan_Console .buttons-list').css( "background", "none" );
 	},
 
-	makeVisbile: function (what) {
+	makeVisible: function (what) {
 
 		if($('#'+what).css('overflow', 'visible').css('display') == 'none') {theDialogManager.toggle(what);}
 
@@ -908,7 +904,7 @@ theWebUI.fManager = {
 
 			var self = this;
 
-			this.makeVisbile('fMan_Console');
+			this.makeVisible('fMan_Console');
 			var loader = './images/ajax-loader.gif';
 			if(thePlugins.isInstalled('create')) {
 				loader = './plugins/create/images/ajax-loader.gif';
@@ -978,7 +974,7 @@ theWebUI.fManager = {
 		$('#fMan-RenameWhat').html(theWebUI.fManager.curpath+'<strong>'+what+'</strong>');
 		$('#fMan-RenameTo').val(what);
 
-		this.makeVisbile('fMan_Rename');
+		this.makeVisible('fMan_Rename');
 
 	},
 
@@ -1048,7 +1044,7 @@ theWebUI.fManager = {
 			$('#fMan_CheckSFV .fMan_Start').attr('disabled',false);
 		}
 
-		this.makeVisbile('fMan_CheckSFV');
+		this.makeVisible('fMan_CheckSFV');
 	},
 
 
@@ -1115,7 +1111,7 @@ theWebUI.fManager = {
 	viewNFO: function (what, mode) {
 
 
-			this.makeVisbile('fMan_Nfo');
+			this.makeVisible('fMan_Nfo');
 			$("#fMan_nfoformat option[value='"+mode+"']").attr('selected', 'selected');
 
 			var cont = $('#nfo_content pre');
@@ -1147,7 +1143,19 @@ theWebUI.fManager = {
 
 };
 
+theWebUI.fManager.CopyLog = function() {
 
+	var node = document.getElementById('fMan_ConsoleLog');
+	var text = node.textContent || node.innerText;
+	var el = document.createElement("textarea");
+	document.body.appendChild(el);
+	el.style.opacity=0;
+	el.style.height="0px";
+	el.value = text;
+	el.select();
+	document.execCommand("copy");
+	document.body.removeChild(el);
+}
 
 theWebUI.fManager.flmSelect = function(e, id) {
 
@@ -1460,17 +1468,16 @@ theWebUI.fManager.dialogs = {
 		plugin.attachPageToOptions($("<div>").attr("id",'fMan_optPan').html(this.dialogs.optPan.content).get(0),theUILang[this.dialogs.optPan.title]);
 		delete this.dialogs.optPan;
 
-
 		var buttons = '<div class="aright buttons-list">'+
 					'<input type="button" class="fMan_Start Button" value="'+theUILang.fDiagStart+'" class="Button" />'+
 					'<input type="button" class="Cancel Button" value="'+theUILang.fDiagClose+'"/>'+
 				'</div>';
 		var consbut = '<div class="aright buttons-list">'+
-					'<input type="button" id="fMan_ClearConsole" class="Button" value="Clear" class="Button" />'+
+					'<input type="button" id="fMan_CopyLog" class="Button" value="'+theUILang.fDiagCopyLog+'" class="Button" />'+
+					'<input type="button" id="fMan_ClearConsole" class="Button" value="'+theUILang.fDiagClearButton+'" class="Button" />'+
 					'<input type="button" class="fMan_Stop Button" value="'+theUILang.fDiagStop+'" class="Button" disabled="true"/>'+
 					'<input type="button" class="Cancel Button" value="'+theUILang.fDiagClose+'"/>'+
 				'</div>';
-
 
 		var browsediags = {
 			CreateSFV: theUILang.fDiagSFVHashfile,
@@ -1498,7 +1505,7 @@ theWebUI.fManager.dialogs = {
 			else {pathbrowse = '';}
 
 
-			var fcontent = $('<div>').html($('<div>').addClass('cont fxcaret').html(dcontent).append(pathbrowse)).append((i != 'Nfo') ? ((i == 'Console') ? consbut : buttons) : '').get(0);
+			var fcontent = $('<div>').html($('<div>').addClass('fxcaret').html(dcontent).append(pathbrowse)).append((i != 'Nfo') ? ((i == 'Console') ? consbut : buttons) : '').get(0);
 			theDialogManager.make('fMan_'+i, theUILang[this.dialogs[i].title], fcontent, this.dialogs[i].modal);
 		}
 
@@ -1625,7 +1632,7 @@ Dialogs button binds bellow:
 		$('#fMan_ClearConsole').click(function() {theWebUI.fManager.cleanlog();});
 		$('#fMan_navbut').click(function() {theWebUI.fManager.Refresh();});
 
-
+		$('#fMan_CopyLog').click(function() {theWebUI.fManager.CopyLog();});
 
 
 
@@ -1760,7 +1767,7 @@ plugin.onLangLoaded = function() {
 	plugin.renameTab('FileManager', theUILang.fManager);
 
 	$('#tab_lcont').append('<input type="button" id="fMan_showconsole" class="Button" value="Console" style="display: none;">');
-	$('#fMan_showconsole').click(function() {theWebUI.fManager.makeVisbile('fMan_Console');});
+	$('#fMan_showconsole').click(function() {theWebUI.fManager.makeVisible('fMan_Console');});
 
 	$.get('plugins/filemanager/settings.js.php', function(data) {
 		eval(data);

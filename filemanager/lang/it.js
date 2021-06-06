@@ -136,3 +136,6 @@ theUILang.fStops = {
 	Copy:		'File duplication stopped',
 	Screenshots:		'Video screenshots creation stopped'
 }
+
+theUILang.fDiagCopyLog		= "Copy text";
+theUILang.fDiagClearButton	= "Clear";

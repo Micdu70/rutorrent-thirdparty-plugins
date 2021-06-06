@@ -136,3 +136,6 @@ theUILang.fStops = {
 	Copy:		"Copie des fichiers arrêtée.",
 	Screenshots:	"Création de la capture vidéo arrêtée."
 }
+
+theUILang.fDiagCopyLog		= "Copier le texte";
+theUILang.fDiagClearButton	= "Vider";
